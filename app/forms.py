@@ -1,6 +1,6 @@
 from wsgiref.validate import validator
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField,TextAreaField,SubmitField
 from wtforms.validators import DataRequired
 
 class Signup(FlaskForm):
@@ -8,6 +8,7 @@ class Signup(FlaskForm):
     email = StringField('email', validators=[DataRequired])
     password = StringField('password', validators=[DataRequired])
     confirmpsw = StringField('confirm password', validators=[DataRequired])
+    submit = SubmitField('Submit')
 
 class login(FlaskForm):
     Email = StringField('email', validators=[DataRequired])

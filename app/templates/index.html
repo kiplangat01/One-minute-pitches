@@ -1,1 +1,9 @@
-<h1>hello world</h1>
+{% block content %}
+
+<form method="POST" action="/">
+    {{ form.name}}
+    {{ form.email}}
+    <input type="submit" value="Go">
+</form>
+
+{% endblock %}
