@@ -1,6 +1,6 @@
 
 class Config:
-    ...
+    SECRET_KEY = 'python is nice'
 class ProdCofig(Config):
     ...
 class DevConfig(Config):

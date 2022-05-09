@@ -1,3 +1,4 @@
+from json.tool import main
 from flask import Blueprint 
-pitch = Blueprint('pitch', __name__)
-from . import views
+main = Blueprint('main', __name__)
+from . import views, forms
