@@ -1,10 +1,23 @@
+{%extends 'base.html'%}
 
- {% block content %}
+<html>
+    <head>
+        <title>signup</title>
+    </head>
+    <body>
+    <h1>signup</h1>
+    </body>
+    <form method="post" action="">
+        {{form.username}}
+        {{form.email}}
+        {{form.password}}
+        {{form.confirmpsw}}
+        {{form.submit}}
+        
+    </form>
 
-<form method="POST" action="/">
-    {{ form.name}}
-    {{ form.email}}
-    <input type="submit" value="Go">
-</form>
 
-{% endblock %}
+
+</html>
+
+ 
