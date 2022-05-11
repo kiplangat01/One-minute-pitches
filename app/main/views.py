@@ -1,8 +1,9 @@
-from flask import render_template
+from flask import render_template,redirect,url_for,request
 from . import main
 from .forms import *
-from flask_login import login_required
-from ..models import Pitch,coment,upvote,downvote
+from flask_login import login_required,current_user
+from .. import db
+from ..models import Pitch
 
 
 
@@ -14,7 +15,14 @@ def index():
 @main.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = Signup_form()
-    
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        # mail_message("Welcome to Impressions","email/welcome",user.email,user=user)
     return render_template('signup.html', form = form )
 
 
@@ -22,7 +30,6 @@ def signup():
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     login = login_form()
-    
     return render_template('login.html', login = login )
 
 
@@ -49,6 +56,5 @@ def pitches():
     health = Pitch.query.filter_by(category='health').all()
     comedy = Pitch.query.filter_by(category='comedy').all()
     business = Pitch.query.filter_by(category='business').all()
-    upvotes = Upvote.query.all()
     user = current_user
-    return render_template('pitch_display.html', pitches=pitches, upvotes=upvotes, user=user,health=health,comedy=comedy,business=business,)
+    return render_template('pitch_display.html', pitches=pitches,  user=user,health=health,comedy=comedy,business=business,)

@@ -12,17 +12,17 @@ login_manager = LoginManager()
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
-from .models import User, Post
+from app.models import User, Post, Pitch
 def create_app(config_name):
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
-    migrate = Migrate(app, db)
     login_manager.init_app(app)
     app.config.from_object(config_options[config_name])
     bootstrap.init_app(app)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+    migrate = Migrate(app, db)
     return app
 
