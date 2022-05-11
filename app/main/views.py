@@ -3,7 +3,8 @@ from . import main
 from .forms import *
 from flask_login import login_required,current_user
 from .. import db
-from ..models import Pitch
+from ..email import mail_message
+from ..models import Pitch,User
 
 
 
@@ -22,7 +23,7 @@ def signup():
         user = User(username=form.username.data, email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
-        # mail_message("Welcome to Impressions","email/welcome",user.email,user=user)
+        mail_message("Welcome to Impressions","email/welcome",user.email,user=user)
     return render_template('signup.html', form = form )
 
 
