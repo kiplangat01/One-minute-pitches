@@ -19,19 +19,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     
-    # def get_reset_token(self, expires_sec=1800):
-    #     s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
-    #     return s.dumps({'user_id': self.id}).decode('utf8')
-    
-    # @staticmethod
-    # def verify_reset_token(token):
-    #     s = Serializer(current_app.config['SECRET_KEY'])
-    #     try:
-    #         user_id = s.loads(token)['user_id']
-    #     except:
-    #         return None
-    #     return User.query.get(user_id)
-    
+   
     def _repr_(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
     
@@ -44,3 +32,31 @@ class Post(db.Model):
     
     def _repr_(self):
         return f"Post('{self.title}', '{self.date_posted}')"
+
+
+class Pitch(db.Model):
+    __tablename__ = 'pitches'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String,nullable=False)
+    pitch = db.Column(db.String(255))
+    category = db.Column(db.String,nullable=False)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    comments = db.relationship('Comment',backref='pitch',lazy="dynamic")
+    upvotes = db.relationship('Upvote',backref='pitch',lazy="dynamic")
+    downvotes = db.relationship('Downvote',backref='pitch',lazy="dynamic")
+    def __init__(self,title,pitch,category,upvotes,downvotes,comments):
+         self.title = title
+         self.pitch = pitch
+         self.category = category
+         self.upvotes = upvotes
+         self.downvotes = downvotes
+         self.comments = comments
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+    @classmethod
+    def get_pitches(cls,id):
+        pitches = Pitch.query.filter_by(pitch_id=id).all()
+        return pitches
+    def __repr__(self):
+        return f'Pitch {self.pitch}'

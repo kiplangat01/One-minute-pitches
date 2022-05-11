@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from ..models import User
 from wtforms import StringField,PasswordField,BooleanField,SubmitField
-from wtforms import StringField,TextAreaField,SubmitField,PasswordField,ValidationError
+from wtforms import StringField,TextAreaField,SubmitField,PasswordField,ValidationError,SelectField
 from wtforms.validators import DataRequired, Email,EqualTo
 
 
@@ -30,5 +30,14 @@ class login_form(FlaskForm):
     remember = BooleanField('Remember me')
     submit = SubmitField('Submit')
 
-
-
+class PitchForm(FlaskForm):
+    title = StringField('Title')
+    pitch = TextAreaField('write your pitch here')
+    category = SelectField('Choose your prefered category',choices=[('health','health'), ('comedy','comedy'), ('business','business')])
+    submit = SubmitField('Pitch')
+class CommentForm(FlaskForm):
+    comment = TextAreaField('write your comment here')
+    submit = SubmitField('Pitch')
+class UpdateProfile(FlaskForm):
+    bio = TextAreaField('Tell us about you.')
+    submit = SubmitField('Submit')
