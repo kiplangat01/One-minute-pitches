@@ -1,5 +1,4 @@
 from datetime import datetime
-# from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from app import db, login_manager
 from flask_login import UserMixin
@@ -44,16 +43,16 @@ class Pitch(db.Model):
     pitch = db.Column(db.String(255))
     category = db.Column(db.String,nullable=False)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    comments = db.relationship('Comment',backref='pitch',lazy="dynamic")
-    upvotes = db.relationship('Upvote',backref='pitch',lazy="dynamic")
-    # downvotes = db.relationship('Downvote',backref='pitch',lazy="dynamic")
+    comments = db.column(db.String(255))
+    upvotes = db.Column(db.Integer())
+    downvotes = db.Column(db.Integer())
     def __init__(self,title,pitch,category,upvotes,downvotes,comments):
          self.title = title
          self.pitch = pitch
          self.category = category
-        #  self.upvotes = upvotes
-        #  self.downvotes = downvotes
-        #  self.comments = comments
+         self.upvotes = upvotes
+         self.downvotes = downvotes
+         self.comments = comments
     def save_pitch(self):
         db.session.add(self)
         db.session.commit()

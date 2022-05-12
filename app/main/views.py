@@ -20,10 +20,11 @@ def signup():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+        user = User(username=username, email=email, password=password)
         db.session.add(user)
         db.session.commit()
-        mail_message("Welcome to Impressions","email/welcome",user.email,user=user)
+        # mail_message("Welcome to Impressions","email/welcome",user.email,user=user)x
+        return redirect(url_for('main.login'))
     return render_template('signup.html', form = form )
 
 
@@ -31,7 +32,13 @@ def signup():
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     login = login_form()
-    return render_template('login.html', login = login )
+    if request.method == 'POST':
+       email = request.form['Email']
+       password = request.form['password']
+       user = User(email=email, password=password)
+    #    mail_message("Welcome to Impressions","email/welcome",user.email,user=user)
+       return redirect(url_for('main.pitches'))
+    return render_template('login.html', login = login, )
 
 
 
