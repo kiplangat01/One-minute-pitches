@@ -1,8 +1,8 @@
-from app import db,create_app
+# from app import db,create_app
 
-app=create_app('dev')
+# app=create_app('dev')
 
-db.init_app(app)
+# db.init_app(app)
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()

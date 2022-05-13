@@ -6,14 +6,13 @@ load_dotenv()
 
 
 class Config:
-     SECRET_KEY = os.environ.get('SECRET_KEY')
+     SECRET_KEY = 'python is nice'
     
 class ProdCofig(Config):
+    pass
 
-
-    ...
 class DevConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = 'postgresql://moringa:bca321@localhost:5432/addpitch'
     
     DEBUG = True
 

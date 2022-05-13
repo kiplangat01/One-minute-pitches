@@ -1,7 +1,7 @@
 from flask import render_template,redirect,url_for,request
 from . import main
 from .forms import *
-from flask_login import login_required,current_user
+from flask_login import login_required,current_user,login_user
 from .. import db
 from ..email import mail_message
 from ..models import Pitch,User
@@ -23,21 +23,20 @@ def signup():
         user = User(username=username, email=email, password=password)
         db.session.add(user)
         db.session.commit()
-        # mail_message("Welcome to Impressions","email/welcome",user.email,user=user)x
+        # mail_message("Welcome to Impressions","email/welcome",user.email,user=user)
         return redirect(url_for('main.login'))
     return render_template('signup.html', form = form )
-
-
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     login = login_form()
     if request.method == 'POST':
-       email = request.form['Email']
+       email = request.form['email']
        password = request.form['password']
-       user = User(email=email, password=password)
-    #    mail_message("Welcome to Impressions","email/welcome",user.email,user=user)
-       return redirect(url_for('main.pitches'))
+       user = User.query.filter_by(email = email).first()
+       if user is not None and user.verify_password(password):
+          login_user(user,login_form.remember.data)
+          return redirect(url_for('main.pitches'))
     return render_template('login.html', login = login, )
 
 
