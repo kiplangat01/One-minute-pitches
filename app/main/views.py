@@ -35,7 +35,7 @@ def login():
        password = request.form['password']
        user = User.query.filter_by(email = email).first()
        if user is not None and user.verify_password(password):
-          login_user(user,login_form.remember.data)
+          login_user(user,login_form)
           return redirect(url_for('main.pitches'))
     return render_template('login.html', login = login, )
 

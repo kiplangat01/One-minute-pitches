@@ -1,37 +1,103 @@
 body{
     font-family: Sans-serif;
-    
-
+    background-color: rgb(17, 187, 199);
+}
+.style2{
+    align-items: flex-end;
+    word-spacing: 50px;
+    margin-right: -100px;
 }
 
-li{
-    color: rebeccapurple;
-}
 
+
+li a{
+    text-decoration: none;
+    /* font-weight: bold; */
+    color: white;
+    font-size: 20px;
+    word-spacing: 10px;
+}
 
 .impress{
+    margin-top: 40px;
     text-align: center;
+    color: white;
 }
- 
 
-.impress h5{
-    margin-top: 70px;
+.infom{
+    text-align: center;
+    margin-top: 30px;
 }
+
 #signup{
-    border: 1px solid black;
+    border-radius: 30px;
+    margin-top: 20px;
+    box-shadow: 5px 5px 25px 25px #888888;
+    background-color: white;
+    width: 800px;
+    padding: 40px;
 }
 
 footer{
     text-align: center;
     font-size: 40px;
-    margin-top: 300px;
+    margin-top: 120px;
+    word-spacing: 70px;
 }
 
-button{
-    background-color: brown;
-    padding: 5px;
-    border: none;
-    border-radius: 3px;
+.route{
     text-align: center;
-    color: wheat;
+    word-spacing: 100px;
+    margin-top: 40px;
+}
+
+.route a{
+    text-decoration: none;
+    color: brown;
+    box-shadow: 3px 3px 15px 15px #888888;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+footer i{
+    word-spacing: 60px;
+}
+
+.wel{
+    text-align: center;
+    margin-top: 50px;
+}
+
+
+.log{
+    text-align: center;
+    /* color: brown; */
+    margin-top: 70px;
+}
+
+.alredy{
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: -60px;
+}
+
+#login{
+    background-color: white;
+    box-shadow: 5px 5px 25px 25px #888888;
+    width: 800px;
+    padding: 40px;
+    border-radius: 10px;
+    margin-top: 70px;
+}
+
+.al{
+    margin-top: 50px;
+    text-align: center;
+    margin-bottom: -40px;
+    text-decoration: none;
 }

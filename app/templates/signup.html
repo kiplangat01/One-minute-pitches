@@ -3,9 +3,25 @@
   
 {% block content %}
 
+<div class="infom">
+    <h3><span>signup for an account</span></h3>
+</div>
+
 <div id="signup" class="container">
     {{ wtf.quick_form(form) }}
 </div>
+
+<div class="alredy">
+    <p>already heve an account <a href="{{url_for('main.login')}}">login</a></p>
+</div>
+
+<footer>
+    <span style="color: rgb(12, 121, 210);"><i class="fa-brands fa-twitter"></i></span>
+    <span style="color: blue;"><i class="fa-brands fa-facebook"></i></span>
+    <span style="color: rgb(10, 45, 201);"><i class="fa-brands fa-linkedin"></i></span>
+    <span style="color: red;"><i class="fa-brands fa-youtube"></i></span>
+    <span style="color: green;"><i class="fa-solid fa-phone"></i></span>
+</footer>
 
 
 
