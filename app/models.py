@@ -1,78 +1,46 @@
 from datetime import datetime
-from flask import current_app
-from app import db, login_manager
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-# from . import views,forms
+from . import db, login_manager
 
 
 
 @login_manager.user_loader
-def load_user(user_id):
+def login_manager(user_id):
     return User.query.get(int(user_id))
 
+
 class User(db.Model, UserMixin):
-    __tablename__= 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-    password_hash = db.Column(db.String(255))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
-
-    @property
-    def password(self):
-        raise AttributeError('You cannnot read the password attribute')
-
-    @password.setter
-    def password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-
-    def verify_password(self,password):
-        return check_password_hash(self.password_hash,password)
-    
    
-    def _repr_(self):
-        return f"User('{self.username}', '{self.email}', '{self.password}' '{self.image_file}')"
-    
-class Post(db.Model):
-    __tablename__= 'posts'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    username = db.Column(db.String, nullable=False, unique=True)
+    email = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String, nullable=False)
+    profile = db.Column(db.String, nullable=False, default='anon.png')
+    pitches = db.relationship('Pitch', backref='author', lazy=True)
+    otp = db.relationship('Otp', backref='user', lazy=True)
 
-    
-    def _repr_(self):
-        return f"Post('{self.title}', '{self.date_posted}')"
+
+    def __repr__(self):
+        return f"id: {self.id} , username: {self.username} "
 
 
 class Pitch(db.Model):
-    __tablename__ = 'pitches'
+    
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String,nullable=False)
-    pitch = db.Column(db.String(255))
-    category = db.Column(db.String,nullable=False)
-    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    comments = db.column(db.String(255))
-    upvotes = db.Column(db.Integer())
-    downvotes = db.Column(db.Integer())
-    def __init__(self,title,pitch,category,upvotes,downvotes,comments):
-         self.title = title
-         self.pitch = pitch
-         self.category = category
-         self.upvotes = upvotes
-         self.downvotes = downvotes
-         self.comments = comments
-    def save_pitch(self):
-        db.session.add(self)
-        db.session.commit()
-    @classmethod
-    def get_pitches(cls,id):
-        pitches = Pitch.query.filter_by(pitch_id=id).all()
-        return pitches
-    def __repr__(self):
-        return f'Pitch {self.pitch}'
+    title = db.Column(db.String, nullable=False)
+    content = db.Column(db.String, nullable=False)
+    likes= db.Column(db.Integer, nullable=False,default=0)
+    dislikes= db.Column(db.Integer, nullable=False,default=0)
+    comments= db.Column(db.String, default='')
+    category= db.Column(db.String,nullable=False)
+    date_created = db.Column(db.Date, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+    def __repr__(self):
+        return f"id: {self.id} , title: {self.title}"
+
+class Otp(db.Model):
+   
+    id = db.Column(db.Integer, primary_key=True)
+    otp=db.Column(db.String,nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

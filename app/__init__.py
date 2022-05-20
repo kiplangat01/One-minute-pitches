@@ -1,30 +1,43 @@
-from ensurepip import bootstrap
-from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+# from flask_bootstrap import Bootstrap5
+from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-from flask_migrate import Migrate
-from config import config_options
 from flask_mail import Mail
-from flask_bootstrap import Bootstrap
+from config import config_options
+from flask_migrate import Migrate
+# bootstrap = Bootstrap5()
+migrate = Migrate()
 
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'main.login'
-
-mail = Mail()
-bootstrap = Bootstrap()
 db = SQLAlchemy()
+mail=Mail()
+bcrypt = Bcrypt()
+login_manager = LoginManager()
+login_manager.login_view = 'users.login'
+
+login_manager.login_message_category = 'info'
+
 
 def create_app(config_name):
-    app = Flask(__name__)   
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    app = Flask(__name__)
+
+    app.config.from_object(config_options)
+    # app.config.from_object(Config)
     db.init_app(app)
     mail.init_app(app)
+    migrate.init_app(app,db)
+    
+    bcrypt.init_app(app)
     login_manager.init_app(app)
-    app.config.from_object(config_options[config_name])
-    bootstrap.init_app(app)
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    # bootstrap.init_app(app)
+    from app.users.routes import users
+    from app.pitch.routes import posts
+    from app.main.routes import main
+
+    app.register_blueprint(main)
+    app.register_blueprint(users)
+    app.register_blueprint(posts)
 
     return app
 

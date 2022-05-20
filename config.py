@@ -13,6 +13,7 @@ class ProdCofig(Config):
 
 class DevConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql://moringa:bca321@localhost:5432/addpitch'
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
     
     DEBUG = True
 
